@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/logout"
+        android:icon="@drawable/ic_exit_to_app"
+        android:title="@string/logout"
+        app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/account_services"
+        android:icon="@drawable/ic_account_service"
+        android:title="@string/account_services" />
+
+    <item android:id="@+id/generate_qc"
+        android:icon="@drawable/ic_generate_qc"
+        android:title="@string/generate_qr"
+        />
+
+    <item android:id="@+id/payement_service"
+        android:icon="@drawable/ic_credit_card"
+        android:title="@string/payement_service" />
+</menu>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Signin.SigninFingerprintFragment"
+    android:id="@+id/SigninFingerprintFragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="true">
+
+        <TextView
+            android:id="@+id/login_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="22dp"
+            android:gravity="center_horizontal"
+            android:text="@string/identification_fingerprint"
+            android:textColor="@color/textPrimaryDark"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/fingerprint"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@+id/login_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_fingerprint"
+            android:elevation="4dp"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp"
+            android:textAlignment="center"
+            android:layout_below="@+id/fingerprint"
+            android:gravity="center"
+            android:id="@+id/desc_fingerprint"
+            android:text="@string/desc_fingerprint"
+            android:layout_margin="16dp"
+            android:paddingEnd="30dp"
+            android:paddingStart="30dp"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/errorText"
+            android:layout_below="@+id/desc_fingerprint"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:id="@+id/errorText"
+            android:paddingEnd="30dp"
+            android:paddingStart="30dp"
+            android:gravity="center"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textPrimaryDark"
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true"
+            android:textSize="14sp"
+            android:text="@string/note"
+            android:layout_margin="22dp"
+            android:textAlignment="center"/>
+
+    </RelativeLayout>
+
+
+
+</FrameLayout>

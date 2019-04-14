@@ -1,0 +1,50 @@
+<resources>
+
+
+    <string name="app_name">ATB</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="seconnecter">Se connecter</string>
+    <string name="email">Email</string>
+    <string name="empreinte">Empreinte</string>
+    <string name="password">Mot de passe</string>
+    <string name="identification_email">IDENTIFICATION PAR EMAIL</string>
+    <string name="identification_fingerprint">IDENTIFICATION PAR EMPREINTE</string>
+    <string name="nameBank">ATB Bank</string>
+    <string name="account_services">Services de compte</string>
+    <string name="generate_qr">Géneration de QR Code</string>
+    <string name="payement_service">Acheter une activité</string>
+    <string name="logout">Exit</string>
+    <string name="libelle">Libelle</string>
+    <string name="price">Prix</string>
+    <string name="date">Date</string>
+    <string name="owner_of_service">Propriétaire de service</string>
+    <string name="valider">Valider</string>
+    <string name="scanner">Scanner</string>
+    <string name="rescan">Rescanner</string>
+    <string name="buy">Achéter</string>
+    <string name="balance">Solde</string>
+    <string name="history_transaction">Historique des transactions</string>
+    <string name="histrory_sales">Historique des ventes</string>
+    <string name="mysales">Mes ventes</string>
+    <string name="storage_link">gs://appbankatb.appspot.com/</string>
+    <string name="myaccount">MON COMPTE</string>
+    <string name="mytransactions">MES TRANSACTIONS</string>
+    <string name="collection_comptes">comptes</string>
+    <string name="collection_transactions">transactions</string>
+    <string name="collection_codeqrs">codeqrs</string>
+    <string name="collection_clients">clients</string>
+    <string name="collection_mysales">mysales</string>
+    <string name="generate_codeqr">Génération de CodeQR</string>
+    <string name="buy_activity">Achéter une activité</string>
+
+
+    <string name="desc_fingerprint">Veuillez placer votre doigt sur le scanner pour vérifier votre identité.</string>
+    <string name="note">(L\'identification par empreinte digitale accélère la connexion de votre application. Votre appareil doit avoir au moins une empreinte digitale enregistrée dans les paramètres de l\'appareil)</string>
+    <string name="title_activity_home">Fingerprint</string>
+    <string name="activity_home_desc">You have successfully logged in with fingerprint authentication</string>
+    <string name="activity_home_note">Close and re-open the app to see the fingerprint auth screen again</string>
+
+
+</resources>

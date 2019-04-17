@@ -312,7 +312,7 @@ public class SignupActivity extends AppCompatActivity {
                                                             //createCollectionTransaction(userUid);
 
                                                             //create collection codeqr
-                                                            createCollectionCodeQr(userUid);
+                                                            //createCollectionCodeQr(userUid);
 
                                                             mDialog.dismiss();
                                                             Utils.displayMessage(SignupActivity.this, "Creation de compte avec succées");

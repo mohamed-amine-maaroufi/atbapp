@@ -1,6 +1,9 @@
 package com.atb.appbankatb.Home;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -67,21 +70,24 @@ public class HomeActivity extends AppCompatActivity  {
         checkPermission();
 
 
-        /*cron job for transaction per day*/
-        startService(new Intent(this, BackgroundService.class));
 
+
+        if (!isMyServiceRunning(HomeActivity.this, BackgroundService.class)) { // Service class name
+           //cron job for transaction per day
+            startService(new Intent(this, BackgroundService.class));
+        }
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         String currentUId = getIntent().getStringExtra("SESSION_ID");
 
-        Log.d("currentUId",currentUId);
+        //Log.d("currentUId",currentUId);
 
 
 
         SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = shared.edit();
-        DocumentReference docRef = firebaseFirestore.collection(getString(R.string.collection_comptes)).document(currentUId);
+        DocumentReference docRef = firebaseFirestore.collection(getString(R.string.collection_comptes)).document(sessionId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -135,6 +141,18 @@ public class HomeActivity extends AppCompatActivity  {
                 startActivity(new Intent(HomeActivity.this,ScanQrCodeActivity.class));
             }
         });
+    }
+
+
+
+    public static boolean isMyServiceRunning(Activity activity, Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

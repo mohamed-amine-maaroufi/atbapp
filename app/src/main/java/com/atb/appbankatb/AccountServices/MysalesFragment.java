@@ -1,11 +1,25 @@
 package com.atb.appbankatb.AccountServices;
 
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +29,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.atb.appbankatb.Beans.Transaction;
 import com.atb.appbankatb.R;
@@ -22,13 +37,30 @@ import com.atb.appbankatb.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.NotificationCompat;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 import static android.support.constraint.Constraints.TAG;
 
 /**
@@ -46,6 +78,8 @@ public class MysalesFragment extends Fragment {
     private ArrayList<Transaction> listSales;
     private ArrayList<Transaction> listFiltredSales = new ArrayList<>();;
     private RelativeLayout layoutfilter;
+
+    private NotificationManager mNotificationManager;
 
     public MysalesFragment() {
         // Required empty public constructor
@@ -101,6 +135,7 @@ public class MysalesFragment extends Fragment {
 
                                 for( Transaction transaction : listSales){
                                     if(transaction.getDate().equals(tv_date.getText())){
+                                        listFiltredSales.clear();
                                         listFiltredSales.add(new Transaction(transaction.getLibelle(),transaction.getDate(),transaction.getPrice(),transaction.getOwnerofService()));
 
                                     }
@@ -123,6 +158,9 @@ public class MysalesFragment extends Fragment {
         });
 
 
+
+
+        Utils.addRealtimeUpdate(getContext(),firebaseFirestore,currentUID);
         return view;
     }
 
@@ -131,6 +169,7 @@ public class MysalesFragment extends Fragment {
     public void getSales(){
 
         firebaseFirestore.collection(getString(R.string.collection_mysales)).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -168,6 +207,12 @@ public class MysalesFragment extends Fragment {
             }
         });
     }
+
+
+
+
+
+
 
 
 }

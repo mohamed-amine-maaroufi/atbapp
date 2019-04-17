@@ -112,6 +112,7 @@ public class HistoryTansactionFragment extends Fragment {
 
                                 for( Transaction transaction : listTransactions){
                                     if(transaction.getDate().equals(tv_date.getText())){
+                                        listFiltredTransactions.clear();
                                         listFiltredTransactions.add(new Transaction(transaction.getLibelle(),transaction.getDate(),transaction.getPrice(),transaction.getOwnerofService()));
 
                                     }

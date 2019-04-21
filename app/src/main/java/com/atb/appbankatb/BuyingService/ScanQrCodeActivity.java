@@ -17,6 +17,7 @@ import static android.Manifest.permission.CAMERA;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.atb.appbankatb.AccountServices.AccountServicesActivity;
 import com.atb.appbankatb.GenerateQrCode.GenerateQrCodeActivity;
@@ -40,7 +41,7 @@ public class ScanQrCodeActivity extends AppCompatActivity implements ZXingScanne
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView mScannerView;
 
-    private String price = null, libelle = null,id_client = null, id_qrcode = null, ownerofService = null;
+    private String price = null, libelle = null,id_client = null, id_qrcode = null, ownerofService = null, email_ownerofService = null;
 
 
     @Override
@@ -163,15 +164,16 @@ public class ScanQrCodeActivity extends AppCompatActivity implements ZXingScanne
 
                 ownerofService = obj.getString("ownerofService");
                 Log.d("ownerofService_obj1",ownerofService);
-                if (obj.has("Prix") && obj.has("Libelle") && obj.has("id_client") && obj.has("idCodeQr") && obj.has("ownerofService")) {
+                if ( obj.has("Prix") && obj.has("Libelle") && obj.has("id_client")
+                        && obj.has("idCodeQr") && obj.has("ownerofService")) {
                     price = obj.getString("Prix");
                     libelle = obj.getString("Libelle");
                     id_client = obj.getString("id_client");
-                    id_qrcode = obj.getString("id_codeqr");
+                    id_qrcode = obj.getString("idCodeQr");
                     ownerofService = obj.getString("ownerofService");
+                   // email_ownerofService = obj.getString("email");
 
-                    Log.d("test","test");
-                    Log.d("ownerofService_obj",ownerofService);
+
 
                 }else{
                     Utils.displayMessage(ScanQrCodeActivity.this, "le QrCode ne correspand pas aux services de ATB banque.");
@@ -204,30 +206,12 @@ public class ScanQrCodeActivity extends AppCompatActivity implements ZXingScanne
             intent.putExtra("id_qrcode", id_qrcode);
             intent.putExtra("ownerofService", ownerofService);
             intent.putExtra("SESSION_ID", sessionId);
+            Toast.makeText(getApplicationContext(), email_ownerofService, Toast.LENGTH_SHORT).show();
+           // intent.putExtra("email_ownerserv", email_ownerofService);
 
 
             startActivity(intent);
 
-        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Scanner Resultat");
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mScannerView.resumeCameraPreview(ScanQrCodeActivity.this);
-            }
-        });
-
-        builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(result));
-                startActivity(browserIntent);
-            }
-        });
-
-        builder.setMessage(result);
-        AlertDialog alert1 = builder.create();
-        alert1.show();*/
 
         }else{
             Utils.displayMessage(ScanQrCodeActivity.this, "le QrCode ne correspand pas aux services de ATB banque.");

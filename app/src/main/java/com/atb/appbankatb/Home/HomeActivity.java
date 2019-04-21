@@ -35,9 +35,15 @@ import com.atb.appbankatb.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.onesignal.OSPermissionSubscriptionState;
+import com.onesignal.OneSignal;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 
@@ -51,7 +57,8 @@ public class HomeActivity extends AppCompatActivity  {
 
     private final int REQUEST_PERMISSION=1;
     private FirebaseFirestore firebaseFirestore;
-    private String sessionId;
+    private String sessionId, email_current_user;
+    private FirebaseUser firebaseUser;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -65,11 +72,29 @@ public class HomeActivity extends AppCompatActivity  {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         sessionId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        email_current_user =  FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
 
         //check permission to write to the storage
         checkPermission();
 
 
+        //notification of sales
+        //Utils.addRealtimeUpdate(getApplicationContext(),firebaseFirestore,sessionId);
+
+        // OneSignal Initialization
+        OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .init();
+
+
+
+        OneSignal.sendTag("User_ID",email_current_user);
+        OneSignal.setEmail(email_current_user);
+
+
+        //sendNotif();
 
 
         if (!isMyServiceRunning(HomeActivity.this, BackgroundService.class)) { // Service class name
@@ -78,10 +103,6 @@ public class HomeActivity extends AppCompatActivity  {
         }
 
         firebaseFirestore = FirebaseFirestore.getInstance();
-
-        String currentUId = getIntent().getStringExtra("SESSION_ID");
-
-        //Log.d("currentUId",currentUId);
 
 
 
@@ -142,7 +163,6 @@ public class HomeActivity extends AppCompatActivity  {
             }
         });
     }
-
 
 
     public static boolean isMyServiceRunning(Activity activity, Class<?> serviceClass) {

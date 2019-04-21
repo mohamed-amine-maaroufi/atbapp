@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.atb.appbankatb.R;
+import com.atb.appbankatb.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,6 +47,7 @@ public class BalanceFragment extends Fragment {
         firebaseFirestore = FirebaseFirestore.getInstance();
         String currentUId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         Log.d(TAG,currentUId);
+
 
 
         DocumentReference docRef = firebaseFirestore.collection(getString(R.string.collection_comptes)).document(currentUId);

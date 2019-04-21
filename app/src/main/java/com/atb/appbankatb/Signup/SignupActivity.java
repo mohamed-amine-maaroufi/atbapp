@@ -2,6 +2,7 @@ package com.atb.appbankatb.Signup;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -75,7 +76,8 @@ public class SignupActivity extends AppCompatActivity {
     public StorageReference storageReference;
     public ProgressDialog mDialog;
     Animation performAnimation;
-   // ImageView androidImageView;
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     public Uri imageUri;
 
@@ -98,6 +100,11 @@ public class SignupActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         imageUri=null;
         //UserHelper userHelper = new UserHelper(this);
+
+
+        pref = getSharedPreferences("Prefs", 0);
+        editor = pref.edit();
+
 
 
         login = (EditText) findViewById(R.id.edittext_login);
@@ -314,6 +321,9 @@ public class SignupActivity extends AppCompatActivity {
                                                             //create collection codeqr
                                                             //createCollectionCodeQr(userUid);
 
+                                                            editor.putString("email_user", login.getText().toString());   //store email
+                                                            editor.commit(); // commit changes
+
                                                             mDialog.dismiss();
                                                             Utils.displayMessage(SignupActivity.this, "Creation de compte avec succées");
                                                             startActivity( new Intent(SignupActivity.this,HomeActivity.class) );
@@ -363,7 +373,7 @@ public class SignupActivity extends AppCompatActivity {
         compte.put("Nom_compte", "compte name");
         compte.put("RIB", (int)Math.random() * 1000);
         compte.put("type_compte", "type compte");
-        compte.put("solde", (double)Math.random() * 1000);
+        compte.put("solde", 400);
         compte.put("total_transaction_perday", 0);
         compte.put("devise", "devise");
         compte.put("id_client", userUid);

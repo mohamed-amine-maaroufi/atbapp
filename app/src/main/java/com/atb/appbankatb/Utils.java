@@ -7,6 +7,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -26,16 +27,20 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import static android.content.Context.MODE_PRIVATE;
 import static java.security.AccessController.getContext;
 
 public  class Utils {
 
     public static String msgEmptyField = "S'il vous plait, remplissez tous les champs";
     private static final AtomicLong LAST_TIME_MS = new AtomicLong();
+
+
 
 
     public static void displayMessage(Context c, String msg) {
@@ -74,10 +79,17 @@ public  class Utils {
 
 
 
-    public static void notificationDialog(Context c) {
+    public static void notificationDialog(Context c, String id_transaction) {
+
+
+        SharedPreferences shared = c.getSharedPreferences("Prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = shared.edit();
+        editor.putString("id_transaction_notif", id_transaction);
+        editor.commit();
+
         Intent intent = new Intent(c, AccountServicesActivity.class);
         NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-        String NOTIFICATION_CHANNEL_ID = "tutorialspoint_01";
+        String NOTIFICATION_CHANNEL_ID = "notifvente_01";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             @SuppressLint("WrongConstant") NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "My Notifications", NotificationManager.IMPORTANCE_MAX);
             // Configure the notification channel.
@@ -93,55 +105,15 @@ public  class Utils {
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setTicker("Tutorialspoint")
+                .setTicker("VenteService")
                 //.setPriority(Notification.PRIORITY_MAX)
                 .setContentTitle("Vente Service")
                 .setContentText("Vous avez un nouveau vente dans vos services .")
-                
+
                 .setContentInfo("Information");
         notificationManager.notify(1, notificationBuilder.build());
     }
 
 
-
-    public static void addRealtimeUpdate(Context c, FirebaseFirestore firebaseFirestore, String currentUID) {
-
-
-        firebaseFirestore.collection("mysales")
-                .whereEqualTo("id_owner_service", currentUID)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot snapshots,
-                                        @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Log.w("listen:error", "listen:error", e);
-                            return;
-                        }
-
-
-                        for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                            switch (dc.getType()) {
-                                case ADDED:
-                                    Log.d("add", "New doc: " + dc.getDocument().getData());
-                                    Utils.notificationDialog(c);
-                                    Toast.makeText(c, ""+ dc.getDocument().getData(), Toast.LENGTH_LONG).show();
-
-                                    break;
-                                case MODIFIED:
-                                    Toast.makeText(c, "hellllllllllllllooooo", Toast.LENGTH_SHORT).show();
-
-                                    Log.d("modif", "Modified doc: " + dc.getDocument().getData());
-
-                                    break;
-                                case REMOVED:
-                                    Log.d("remove", "Removed doc: " + dc.getDocument().getData());
-                                    break;
-                            }
-                        }
-
-                    }
-                });
-
-    }
 
 }

@@ -29,6 +29,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.atb.appbankatb.AccountServices.AccountServicesActivity;
 
@@ -79,6 +80,7 @@ public class GenerateQrCodeActivity extends AppCompatActivity {
     private final int REQUEST_PERMISSION=1;
 
 
+
     //Firebase
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -122,12 +124,18 @@ public class GenerateQrCodeActivity extends AppCompatActivity {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+        SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = shared.edit();
+
         String currentUId = getIntent().getStringExtra("SESSION_ID");
+
+        String email_currentuser = shared.getString("email_user", null); // getting email
+
+
 
         Log.d("currentUId",currentUId);
 
-        SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = shared.edit();
+
 
 
         DocumentReference docRef = firebaseFirestore.collection(getString(R.string.collection_comptes)).document(currentUId);
@@ -232,6 +240,7 @@ public class GenerateQrCodeActivity extends AppCompatActivity {
 
                     try {
 
+                        //jsonObj.put("email",email_currentuser);
                         jsonObj.put("idCodeQr", idCodeqr);
                         jsonObj.put("id_client", currentUId);
                         jsonObj.put("Libelle", str_libelle);
@@ -290,6 +299,7 @@ public class GenerateQrCodeActivity extends AppCompatActivity {
                                     codeqrMap.put("id_client", currentUId);
                                     codeqrMap.put("id_codeqr", idCodeqr);
                                     codeqrMap.put("ownerofService", ownerofService);
+                                    codeqrMap.put("email_ownerofService", email_currentuser);
                                     Log.d("ownerofService2", String.valueOf(ownerofService));
 
                                     firebaseFirestore.collection(getString(R.string.collection_codeqrs)).document(idCodeqr)

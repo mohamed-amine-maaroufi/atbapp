@@ -158,9 +158,6 @@ public class MysalesFragment extends Fragment {
         });
 
 
-
-
-        Utils.addRealtimeUpdate(getContext(),firebaseFirestore,currentUID);
         return view;
     }
 
